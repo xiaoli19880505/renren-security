@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("sys:accounttraninfo:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;上传</a>
+			</#if>
+			<#if shiro.hasPermission("sys:accounttraninfo:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:accounttraninfo:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">项目专户id</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.accountId" placeholder="项目专户id"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">交易金额</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.tranMon" placeholder="交易金额"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">专户余额</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.accountRemain" placeholder="专户余额"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">交易状态</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.tranState" placeholder="交易状态"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">进账账号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.incomeAccountNo" placeholder="进账账号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">进账单位名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.incomeUnitName" placeholder="进账单位名称"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">出账批次号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.outcomeBatchNo" placeholder="出账批次号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">记录登记时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.recordTime" placeholder="记录登记时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">工资单开始时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.payslipBeginTime" placeholder="工资单开始时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">工资单结束时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.payslipEndTime" placeholder="工资单结束时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">上传人id</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.createPersonId" placeholder="上传人id"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">上传时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="accountTranInfo.createTime" placeholder="上传时间"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/account/accounttraninfo.js?_${.now?long}"></script>
+</body>
+</html>

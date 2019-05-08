@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.account.dao.WorkerAccountInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.account.entity.WorkerAccountInfoEntity" id="workerAccountInfoMap">
+        <result property="workerId" column="worker_id"/>
+        <result property="workerSfzh" column="worker_sfzh"/>
+        <result property="bankDicId" column="bank_dic_id"/>
+        <result property="workerAccountNo" column="worker_account_no"/>
+        <result property="createPersonId" column="create_person_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+
+</mapper>

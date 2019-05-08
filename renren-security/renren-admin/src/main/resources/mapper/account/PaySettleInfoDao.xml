@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.account.dao.PaySettleInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.account.entity.PaySettleInfoEntity" id="paySettleInfoMap">
+        <result property="seetleId" column="seetle_id"/>
+        <result property="proNo" column="pro_no"/>
+        <result property="workerSfzh" column="worker_sfzh"/>
+        <result property="grantBatchNo" column="grant_batch_no"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="payGrantTime" column="pay_grant_time"/>
+        <result property="payBeginTime" column="pay_begin_time"/>
+        <result property="payEndTime" column="pay_end_time"/>
+        <result property="payTotal" column="pay_total"/>
+        <result property="payPrepare" column="pay_prepare"/>
+        <result property="payReal" column="pay_real"/>
+        <result property="recordTime" column="record_time"/>
+        <result property="workerAccount" column="worker_account"/>
+        <result property="remark" column="remark"/>
+        <result property="createPersonId" column="create_person_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.account.dao.AccountTranInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.account.entity.AccountTranInfoEntity" id="accountTranInfoMap">
+        <result property="tranId" column="tran_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="tranMon" column="tran_mon"/>
+        <result property="accountRemain" column="account_remain"/>
+        <result property="tranState" column="tran_state"/>
+        <result property="incomeAccountNo" column="income_account_no"/>
+        <result property="incomeUnitName" column="income_unit_name"/>
+        <result property="outcomeBatchNo" column="outcome_batch_no"/>
+        <result property="recordTime" column="record_time"/>
+        <result property="payslipBeginTime" column="payslip_begin_time"/>
+        <result property="payslipEndTime" column="payslip_end_time"/>
+        <result property="createPersonId" column="create_person_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+
+</mapper>

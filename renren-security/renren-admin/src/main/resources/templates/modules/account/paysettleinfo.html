@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("sys:paysettleinfo:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("sys:paysettleinfo:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:paysettleinfo:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">项目编号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.proNo" placeholder="项目编号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">工人身份证号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.workerSfzh" placeholder="工人身份证号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">发放批次号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.grantBatchNo" placeholder="发放批次号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">银行名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.bankName" placeholder="银行名称"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">工资发放日期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.payGrantTime" placeholder="工资发放日期"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">工资开始时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.payBeginTime" placeholder="工资开始时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">工资截止时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.payEndTime" placeholder="工资截止时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">应发工资</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.payTotal" placeholder="应发工资"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">预发工资</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.payPrepare" placeholder="预发工资"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">实发工资</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.payReal" placeholder="实发工资"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">记录时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.recordTime" placeholder="记录时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">工人银行卡号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.workerAccount" placeholder="工人银行卡号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备注</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.remark" placeholder="备注"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">上传人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.createPersonId" placeholder="上传人"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">上传时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="paySettleInfo.createTime" placeholder="上传时间"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/account/paysettleinfo.js?_${.now?long}"></script>
+</body>
+</html>
