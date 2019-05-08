@@ -2,6 +2,7 @@ package io.renren.modules.account.controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -47,6 +48,16 @@ public class ProjectBankAccountController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 不分页查询列表
+     */
+    @RequestMapping("/alllist")
+    @RequiresPermissions("sys:projectbankaccount:list")
+    public R allList(@RequestParam Map<String, Object> params){
+       // PageUtils page = projectBankAccountService.queryPage(params);
+        List<ProjectBankAccountEntity> list = projectBankAccountService.list();
+        return R.ok().put("list", list);
+    }
 
 
     /**
