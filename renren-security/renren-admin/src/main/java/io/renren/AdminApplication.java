@@ -12,7 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * wangli11333
+ * wangli1135555
  */
 @SpringBootApplication
 public class AdminApplication {
@@ -20,5 +20,4 @@ public class AdminApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AdminApplication.class, args);
 	}
-
 }
