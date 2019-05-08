@@ -8,9 +8,11 @@
 
 package io.renren.modules.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.account.entity.ProjectBankAccountEntity;
 import io.renren.modules.sys.entity.SysDictEntity;
 import io.renren.modules.sys.service.SysDictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +43,19 @@ public class SysDictController {
         PageUtils page = sysDictService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 条件查询所有数据
+     */
+    @RequestMapping("/alllist")
+    @RequiresPermissions("sys:projectbankaccount:list")
+    public R allList(@RequestParam Map<String, Object> params){
+        List<SysDictEntity> sysDicList = sysDictService.
+                list(new QueryWrapper<SysDictEntity>()
+                        .eq("name",params.get("name"))
+                );
+        return R.ok().put("list", sysDicList);
     }
 
 
