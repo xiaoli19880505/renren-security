@@ -12,7 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * wangli11333
+ * wangli1133388
  */
 @SpringBootApplication
 public class AdminApplication {
