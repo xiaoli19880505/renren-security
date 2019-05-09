@@ -60,6 +60,7 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "上传";
 			vm.accountTranInfo = {};
+            this.loadAccount();
 		},
 		update: function (event) {
 			var tranId = getSelectedRow();
@@ -163,6 +164,6 @@ var vm = new Vue({
             forceParse: 0,
             showMeridian: 1
         });
-        this.loadAccount();
+
     }
 });
