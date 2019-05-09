@@ -40,6 +40,30 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/oss/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        fileType:'file',
+        onSubmit:function(file, extension){
+            if(vm.config.type == null){
+                return false;
+            }
+                if (!(extension && /^(xls|xlsx|XLS|XLSX)$/.test(extension.toLowerCase()))){
+                layer.alert('只支持excel文件！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                alert(r.url);
+                vm.reload();
+            }else{
+                alert(r.msg);
+            }
+        }
+    });
 });
 
 var vm = new Vue({
@@ -48,7 +72,13 @@ var vm = new Vue({
 		showList: true,
 		title: null,
 		projectBankAccount: {},
-        bankDicJson:[]
+        bankDicJson:[],
+        config: {},
+        queries:{
+            accountNo: null,
+            proNo:null,
+            accountName:null
+        }
 	},
 	methods: {
 		query: function () {
@@ -58,6 +88,7 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.projectBankAccount = {};
+            this.loadDic();
 		},
 		update: function (event) {
 			var accountId = getSelectedRow();
@@ -66,30 +97,29 @@ var vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            
             vm.getInfo(accountId)
 		},
 		saveOrUpdate: function (event) {
 		    $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
                 var url = vm.projectBankAccount.accountId == null ? "sys/projectbankaccount/save" : "sys/projectbankaccount/update";
-                $.ajax({
-                    type: "POST",
-                    url: baseURL + url,
-                    contentType: "application/json",
-                    data: JSON.stringify(vm.projectBankAccount),
-                    success: function(r){
-                        if(r.code === 0){
-                             layer.msg("操作成功", {icon: 1});
-                             vm.reload();
-                             $('#btnSaveOrUpdate').button('reset');
-                             $('#btnSaveOrUpdate').dequeue();
-                        }else{
-                            layer.alert(r.msg);
-                            $('#btnSaveOrUpdate').button('reset');
-                            $('#btnSaveOrUpdate').dequeue();
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + url,
+                        contentType: "application/json",
+                        data: JSON.stringify(vm.projectBankAccount),
+                        success: function(r){
+                            if(r.code === 0){
+                                layer.msg("操作成功", {icon: 1});
+                                vm.reload();
+                                $('#btnSaveOrUpdate').button('reset');
+                                $('#btnSaveOrUpdate').dequeue();
+                            }else{
+                                layer.alert(r.msg);
+                                $('#btnSaveOrUpdate').button('reset');
+                                $('#btnSaveOrUpdate').dequeue();
+                            }
                         }
-                    }
-                });
+                    });
 			});
 		},
 		del: function (event) {
@@ -129,7 +159,12 @@ var vm = new Vue({
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
+			$("#jqGrid").jqGrid('setGridParam',{
+                postData:{
+                    'accountNo': vm.queries.accountNo,
+                    'proNo': vm.queries.proNo,
+                    'accountName': vm.queries.accountName
+                },
                 page:page
             }).trigger("reloadGrid");
 		},
@@ -148,9 +183,20 @@ var vm = new Vue({
                     }
                 }
             })
-        }
+        },
+        getConfig: function () {
+            $.getJSON(baseURL + "sys/oss/config", function(r){
+                vm.config = r.config;
+            });
+        },
+        changeId:function(){
+		    var text=$("#bankDicId").find('option:selected').text();
+		    var code=$("#bankDicId").find('option:selected').attr("code");
+            vm.projectBankAccount.BankCode=code;
+            vm.projectBankAccount.BankName=text;
+        },
 	},
-    mounted(){
-	    this.loadDic();
+    created(){
+        this.getConfig();
     }
 });
