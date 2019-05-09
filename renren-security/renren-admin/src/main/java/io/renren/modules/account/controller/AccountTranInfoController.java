@@ -68,7 +68,7 @@ public class AccountTranInfoController {
     @RequiresPermissions("sys:accounttraninfo:save")
     public R save(@RequestBody AccountTranInfoEntity accountTranInfo){
         String xmlStr = BankUtil.BeanToXml(accountTranInfo,AccountTranInfoEntity.class);
-        String resultMsg = BankUtil.uploadBankData("UploadBankAccount",xmlStr);
+        String resultMsg = BankUtil.uploadBankData("uploadSpecialAccount",xmlStr);
         /*上传成功，则插入数据*/
         if(resultMsg.indexOf("100")!=-1){
             /*设置上传人的id和上传时间*/

@@ -3,9 +3,12 @@ package io.renren.modules.account.controller;
 import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.annotation.SysLog;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.account.entity.AccountTranInfoEntity;
 import io.renren.modules.account.entity.ProjectBankAccountEntity;
 import io.renren.modules.account.service.ProjectBankAccountService;
+import io.renren.modules.account.utils.BankUtil;
 import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.shiro.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -72,14 +75,21 @@ public class ProjectBankAccountController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:projectbankaccount:save")
+    @SysLog("保存配置")
     public R save(@RequestBody ProjectBankAccountEntity projectBankAccount){
-        /*设置上传人的id和上传时间*/
-        SysUserEntity sysUserEntity = ShiroUtils.getUserEntity();
-        projectBankAccount.setCreatePersonId(sysUserEntity.getUserId());
-        projectBankAccount.setCreateTime(new Date());
-        projectBankAccountService.save(projectBankAccount);
-
-        return R.ok();
+        String xmlStr = BankUtil.BeanToXml(projectBankAccount,ProjectBankAccountEntity.class);
+        String resultMsg = BankUtil.uploadBankData("uploadBankAccount",xmlStr);
+        /*上传成功，则插入数据*/
+        if(resultMsg.indexOf("100")!=-1){
+            /*设置上传人的id和上传时间*/
+            SysUserEntity sysUserEntity = ShiroUtils.getUserEntity();
+            projectBankAccount.setCreatePersonId(sysUserEntity.getUserId());
+            projectBankAccount.setCreateTime(new Date());
+            projectBankAccountService.save(projectBankAccount);
+            return R.ok();}
+        else{
+            return R.error(resultMsg.split(";")[2]);
+        }
     }
 
     /**
