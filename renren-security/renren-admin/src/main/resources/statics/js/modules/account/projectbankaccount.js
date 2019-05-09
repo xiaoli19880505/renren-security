@@ -21,6 +21,8 @@ $(function () {
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
+        altRows:true,
+        altclass:'ui-jqgrid-rowbackgroundColor',
         pager: "#jqGridPager",
         jsonReader : {
             root: "page.list",
@@ -35,7 +37,7 @@ $(function () {
         },
         gridComplete:function(){
         	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
 });
@@ -45,7 +47,8 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
-		projectBankAccount: {}
+		projectBankAccount: {},
+        bankDicJson:[]
 	},
 	methods: {
 		query: function () {
@@ -129,6 +132,25 @@ var vm = new Vue({
 			$("#jqGrid").jqGrid('setGridParam',{ 
                 page:page
             }).trigger("reloadGrid");
-		}
-	}
+		},
+        loadDic:function(){
+            $.ajax({
+                url: baseURL + 'sys/dict/alllist',
+                type:'post',
+                data:{
+                    name:'银行编码'
+                },
+                success:function(data){
+                    if(data.msg=='success'){
+                        vm.bankDicJson=data.list;
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        }
+	},
+    mounted(){
+	    this.loadDic();
+    }
 });
