@@ -35,14 +35,17 @@ public class BankUtil {
         Class<? extends UploadBankData> aClass = uploadBankData.getClass();
         String resultMessage = "";
         try {
-            Method method = aClass.getDeclaredMethod(methodName);
+
             /*验证个人在项目中是否存在，需要两个参数；其他情况均为一个参数*/
             if(xmlPara.length==1){
+                Method method = aClass.getDeclaredMethod(methodName,String.class,String.class);
                 resultMessage = (String)method.invoke(uploadBankData,xmlPara[0],Constant.BankAccount.PLAT_PASSWORD.getValue());
             }else{
+                Method method = aClass.getDeclaredMethod(methodName,String.class,String.class,String.class);
                 resultMessage = (String)method.invoke(uploadBankData,xmlPara[0],xmlPara[1],Constant.BankAccount.PLAT_PASSWORD.getValue());
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RRException("方法执行报错");
         }
         return resultMessage;
