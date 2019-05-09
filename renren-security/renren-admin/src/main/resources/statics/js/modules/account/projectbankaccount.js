@@ -19,7 +19,7 @@ $(function () {
 		rowList : [10,30,50],
         rownumbers: true, 
         rownumWidth: 25, 
-        autowidth:false,
+        autowidth:true,
         multiselect: true,
         altRows:true,
         altclass:'ui-jqgrid-rowbackgroundColor',

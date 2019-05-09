@@ -49,7 +49,8 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
-		accountTranInfo: {}
+		accountTranInfo: {},
+        accountJson:[]
 	},
 	methods: {
 		query: function () {
@@ -133,6 +134,35 @@ var vm = new Vue({
 			$("#jqGrid").jqGrid('setGridParam',{ 
                 page:page
             }).trigger("reloadGrid");
-		}
-	}
+		},
+        loadAccount:function(){
+            $.ajax({
+                url: baseURL + 'sys/projectbankaccount/alllist',
+                type:'post',
+                data:{
+                    name:'银行编码'
+                },
+                success:function(data){
+                    if(data.msg=='success'){
+                        vm.accountJson=data.list;
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        }
+	},
+    mounted(){
+        $('#recordTime,#payslipBeginTime,#payslipEndTime').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 0, //一周从哪一天开始
+            todayBtn:  1, //
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+        this.loadAccount();
+    }
 });
