@@ -29,9 +29,7 @@
                 <div class="col-sm-4 control-label">项目专户id</div>
                 <div class="col-sm-8">
                     <select  class="form-control" v-model="accountTranInfo.accountId">
-                         <template v-for="item in accountJson">
-                             <option :value="item.accountId">{{item.accountName}}</option>
-                         </template>
+                        <option v-for="item in accountJson" :value="item.accountId">{{item.accountName}}</option>
                     </select>
                 </div>
             </div>
