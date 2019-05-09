@@ -66,6 +66,29 @@ public class Constant {
             return value;
         }
     }
+
+    /**
+     * 银行工资系统的常亮
+     */
+    public enum BankAccount{
+
+        PLAT_PASSWORD("123456");
+
+        private String value;//平台密码
+
+        BankAccount(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
     
     /**
      * 定时任务状态

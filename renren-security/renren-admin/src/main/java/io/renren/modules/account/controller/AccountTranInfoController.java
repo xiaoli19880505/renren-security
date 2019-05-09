@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+import io.renren.common.utils.Constant;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.account.entity.AccountTranInfoEntity;
 import io.renren.modules.account.service.AccountTranInfoService;
+import io.renren.modules.account.utils.BankUtil;
 import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.shiro.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -65,14 +67,19 @@ public class AccountTranInfoController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:accounttraninfo:save")
     public R save(@RequestBody AccountTranInfoEntity accountTranInfo){
-        /*设置上传人的id和上传时间*/
-        //accountTranInfo.preInsert();
-        SysUserEntity sysUserEntity = ShiroUtils.getUserEntity();
-        accountTranInfo.setCreatePersonId(sysUserEntity.getUserId());
-        accountTranInfo.setCreateTime(new Date());
-        accountTranInfoService.save(accountTranInfo);
-
-        return R.ok();
+        String xmlStr = BankUtil.BeanToXml(accountTranInfo,AccountTranInfoEntity.class);
+        String resultMsg = BankUtil.uploadBankData("UploadBankAccount",xmlStr);
+        /*上传成功，则插入数据*/
+        if(resultMsg.indexOf("100")!=-1){
+            /*设置上传人的id和上传时间*/
+            SysUserEntity sysUserEntity = ShiroUtils.getUserEntity();
+            accountTranInfo.setCreatePersonId(sysUserEntity.getUserId());
+            accountTranInfo.setCreateTime(new Date());
+            accountTranInfoService.save(accountTranInfo);
+            return R.ok();
+        }else{
+           return R.error(resultMsg.split(";")[2]);
+        }
     }
 
     /**
