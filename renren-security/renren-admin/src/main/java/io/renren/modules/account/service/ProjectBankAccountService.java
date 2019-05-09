@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.account.entity.ProjectBankAccountEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface ProjectBankAccountService extends IService<ProjectBankAccountEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<ProjectBankAccountEntity> listNotPage(Map<String, Object> params);
 }
 

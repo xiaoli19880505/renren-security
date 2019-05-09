@@ -1,5 +1,7 @@
 package io.renren.modules.account.service.impl;
 
+import io.renren.common.annotation.DataFilter;
+import io.renren.common.utils.Constant;
 import io.renren.modules.account.dao.AccountTranInfoDao;
 import io.renren.modules.account.entity.AccountTranInfoEntity;
 import io.renren.modules.account.service.AccountTranInfoService;
@@ -18,10 +20,12 @@ import io.renren.common.utils.Query;
 public class AccountTranInfoServiceImpl extends ServiceImpl<AccountTranInfoDao, AccountTranInfoEntity> implements AccountTranInfoService {
 
     @Override
+    @DataFilter(subDept = true, user = false,createDept = true)
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AccountTranInfoEntity> page = this.page(
                 new Query<AccountTranInfoEntity>().getPage(params),
                 new QueryWrapper<AccountTranInfoEntity>()
+                        .apply(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER))
         );
 
         return new PageUtils(page);

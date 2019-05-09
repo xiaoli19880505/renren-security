@@ -1,11 +1,14 @@
 package io.renren.modules.account.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.account.entity.WorkerAccountInfoEntity;
 import io.renren.modules.account.service.WorkerAccountInfoService;
+import io.renren.modules.sys.entity.SysUserEntity;
+import io.renren.modules.sys.shiro.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,8 +65,11 @@ public class WorkerAccountInfoController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:workeraccountinfo:save")
     public R save(@RequestBody WorkerAccountInfoEntity workerAccountInfo){
+        /*设置上传人的id和上传时间*/
+        SysUserEntity sysUserEntity = ShiroUtils.getUserEntity();
+        workerAccountInfo.setCreatePersonId(sysUserEntity.getUserId());
+        workerAccountInfo.setCreateTime(new Date());
         workerAccountInfoService.save(workerAccountInfo);
-
         return R.ok();
     }
 

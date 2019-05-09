@@ -28,10 +28,16 @@ public @interface DataFilter {
     /**  true：拥有子部门数据权限 */
     boolean subDept() default false;
 
+    /*  true：需要查询本部门及其子部门的数据 fals:不需要查询;主要用于查询是业务操作者*/
+    boolean createDept() default  false;
+
     /**  部门ID */
     String deptId() default "dept_id";
 
     /**  用户ID */
     String userId() default "user_id";
+
+    /* 创建用户ID */
+    String createUserId() default "create_person_id";
 }
 

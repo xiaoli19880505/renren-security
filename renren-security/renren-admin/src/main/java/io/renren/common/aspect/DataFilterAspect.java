@@ -53,13 +53,11 @@ public class DataFilterAspect {
         Object params = point.getArgs()[0];
         if(params != null && params instanceof Map){
             SysUserEntity user = ShiroUtils.getUserEntity();
-
             //如果不是超级管理员，则进行数据过滤
             if(user.getUserId() != Constant.SUPER_ADMIN){
                 Map map = (Map)params;
                 map.put(Constant.SQL_FILTER, getSQLFilter(user, point));
             }
-
             return ;
         }
 
@@ -98,7 +96,16 @@ public class DataFilterAspect {
         sqlFilter.append(" (");
 
         if(deptIdList.size() > 0){
-            sqlFilter.append(tableAlias).append(dataFilter.deptId()).append(" in(").append(StringUtils.join(deptIdList, ",")).append(")");
+            if(dataFilter.createDept()){
+                /*基于上传人所属部门的查询，用于业务方面*/
+                sqlFilter.append(tableAlias).append(dataFilter.createUserId())
+                        .append(" in(SELECT   user_id FROM sys_user WHERE ")
+                        .append(dataFilter.deptId()).append(" in(").append(StringUtils.join(deptIdList, ",")).append(")")
+                        .append(")");
+            }else{
+                sqlFilter.append(tableAlias).append(dataFilter.deptId()).append(" in(").append(StringUtils.join(deptIdList, ",")).append(")");
+            }
+
         }
 
         //没有本部门数据权限，也能查询本人数据
