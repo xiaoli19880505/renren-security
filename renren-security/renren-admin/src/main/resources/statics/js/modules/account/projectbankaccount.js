@@ -192,8 +192,8 @@ var vm = new Vue({
         changeId:function(){
 		    var text=$("#bankDicId").find('option:selected').text();
 		    var code=$("#bankDicId").find('option:selected').attr("code");
-            vm.projectBankAccount.BankCode=code;
-            vm.projectBankAccount.BankName=text;
+            vm.projectBankAccount.bankCode=code;
+            vm.projectBankAccount.bankName=text;
         },
 	},
     created(){
