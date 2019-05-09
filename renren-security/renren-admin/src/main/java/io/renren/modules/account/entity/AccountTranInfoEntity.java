@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @TableName("account_tran_info")
-public class AccountTranInfoEntity implements Serializable {
+public class AccountTranInfoEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -73,5 +73,7 @@ public class AccountTranInfoEntity implements Serializable {
 	 * 上传时间
 	 */
 	private Date createTime;
+
+
 
 }

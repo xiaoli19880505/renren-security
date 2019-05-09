@@ -1,5 +1,7 @@
 package io.renren.modules.account.service.impl;
 
+import io.renren.common.annotation.DataFilter;
+import io.renren.common.utils.Constant;
 import io.renren.modules.account.dao.WorkerAccountInfoDao;
 import io.renren.modules.account.entity.WorkerAccountInfoEntity;
 import io.renren.modules.account.service.WorkerAccountInfoService;
@@ -17,10 +19,12 @@ import io.renren.common.utils.Query;
 public class WorkerAccountInfoServiceImpl extends ServiceImpl<WorkerAccountInfoDao, WorkerAccountInfoEntity> implements WorkerAccountInfoService {
 
     @Override
+    @DataFilter(subDept = true, user = false,createDept = true)
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<WorkerAccountInfoEntity> page = this.page(
                 new Query<WorkerAccountInfoEntity>().getPage(params),
                 new QueryWrapper<WorkerAccountInfoEntity>()
+                        .apply(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER))
         );
 
         return new PageUtils(page);

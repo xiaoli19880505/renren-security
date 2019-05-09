@@ -1,9 +1,6 @@
 package io.renren.modules.account.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.validator.ValidatorUtils;
@@ -44,7 +41,6 @@ public class ProjectBankAccountController {
     @RequiresPermissions("sys:projectbankaccount:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = projectBankAccountService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -53,9 +49,9 @@ public class ProjectBankAccountController {
      */
     @RequestMapping("/alllist")
     @RequiresPermissions("sys:projectbankaccount:list")
-    public R allList(@RequestParam Map<String, Object> params){
+    public R listNotPage(){
        // PageUtils page = projectBankAccountService.queryPage(params);
-        List<ProjectBankAccountEntity> list = projectBankAccountService.list();
+        List<ProjectBankAccountEntity> list = projectBankAccountService.listNotPage(new HashMap<String,Object>());
         return R.ok().put("list", list);
     }
 

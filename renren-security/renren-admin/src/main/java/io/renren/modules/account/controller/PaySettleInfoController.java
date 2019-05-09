@@ -1,11 +1,14 @@
 package io.renren.modules.account.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.account.entity.PaySettleInfoEntity;
 import io.renren.modules.account.service.PaySettleInfoService;
+import io.renren.modules.sys.entity.SysUserEntity;
+import io.renren.modules.sys.shiro.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +65,9 @@ public class PaySettleInfoController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:paysettleinfo:save")
     public R save(@RequestBody PaySettleInfoEntity paySettleInfo){
+        SysUserEntity sysUserEntity = ShiroUtils.getUserEntity();
+        paySettleInfo.setCreatePersonId(sysUserEntity.getUserId());
+        paySettleInfo.setCreateTime(new Date());
         paySettleInfoService.save(paySettleInfo);
 
         return R.ok();

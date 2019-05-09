@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @TableName("worker_account_info")
-public class WorkerAccountInfoEntity implements Serializable {
+public class WorkerAccountInfoEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @TableName("pay_settle_info")
-public class PaySettleInfoEntity implements Serializable {
+public class PaySettleInfoEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
