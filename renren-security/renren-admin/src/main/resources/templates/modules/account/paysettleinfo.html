@@ -62,8 +62,8 @@
             <div class="form-group">
                 <div class="col-sm-4 control-label">工资发放日期</div>
                 <div class="col-sm-8">
-                    <div class='input-group date timeGroup' >
-                        <input type="text" class="form-control" name="payGrantTime" readonly v-model="paySettleInfo.payGrantTime" placeholder="工资发放日期"/>
+                    <div class='input-group date' id="payGrantTime">
+                        <input type="text" class="form-control" name="payGrantTime" readonly v-model="paySettleInfo.payGrantTime" placeholder="工资发放日期" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
