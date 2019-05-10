@@ -282,6 +282,10 @@ var vm = new Vue({
             minView:0,//最精确视图
             forceParse: false,//是否强制转换
             pickerPosition:'bottom-left'
+        }).on('hide', function (ev) {
+            var value = $(ev.currentTarget).find('input').val();
+            var modelName=$(ev.currentTarget).find('input').attr("name");
+            vm.accountTranInfo[modelName] = value;
         });
 
     }
