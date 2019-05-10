@@ -50,7 +50,12 @@ var vm = new Vue({
 		showList: true,
 		title: null,
 		accountTranInfo: {},
-        accountJson:[]
+        accountJson:[],
+        queries:{
+            accountId: null,
+            incomeUnitName:null,
+            incomeAccountNo:null
+        }
 	},
 	methods: {
 		query: function () {
@@ -61,6 +66,7 @@ var vm = new Vue({
 			vm.title = "上传";
 			vm.accountTranInfo = {};
             this.loadAccount();
+            this.init();
 		},
 		update: function (event) {
 			var tranId = getSelectedRow();
@@ -69,31 +75,37 @@ var vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            
             vm.getInfo(tranId)
 		},
 		saveOrUpdate: function (event) {
-		    $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
-                var url = vm.accountTranInfo.tranId == null ? "sys/accounttraninfo/save" : "sys/accounttraninfo/update";
-                $.ajax({
-                    type: "POST",
-                    url: baseURL + url,
-                    contentType: "application/json",
-                    data: JSON.stringify(vm.accountTranInfo),
-                    success: function(r){
-                        if(r.code === 0){
-                             layer.msg("操作成功", {icon: 1});
-                             vm.reload();
-                             $('#btnSaveOrUpdate').button('reset');
-                             $('#btnSaveOrUpdate').dequeue();
-                        }else{
-                            layer.alert(r.msg);
-                            $('#btnSaveOrUpdate').button('reset');
-                            $('#btnSaveOrUpdate').dequeue();
+            var url = vm.accountTranInfo.tranId == null ? "sys/accounttraninfo/save" : "sys/accounttraninfo/update";
+            var bootstrapValidator = $("#projectForm").data('bootstrapValidator');
+            bootstrapValidator.validate();
+            if(bootstrapValidator.isValid()){
+                $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + url,
+                        contentType: "application/json",
+                        data: JSON.stringify(vm.accountTranInfo),
+                        success: function(r){
+                            if(r.code === 0){
+                                layer.msg("操作成功", {icon: 1});
+                                vm.reload();
+                                $('#btnSaveOrUpdate').button('reset');
+                                $('#btnSaveOrUpdate').dequeue();
+                            }else{
+                                layer.alert(r.msg);
+                                $('#btnSaveOrUpdate').button('reset');
+                                $('#btnSaveOrUpdate').dequeue();
+                            }
                         }
-                    }
+                    });
                 });
-			});
+            }else{
+                $('#btnSaveOrUpdate').button('reset');
+                $('#btnSaveOrUpdate').dequeue();
+            }
 		},
 		del: function (event) {
 			var tranIds = getSelectedRows();
@@ -132,7 +144,12 @@ var vm = new Vue({
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
+			$("#jqGrid").jqGrid('setGridParam',{
+			    postData:{
+                    accountId: vm.queries.accountId,
+                    incomeUnitName: vm.queries.incomeUnitName,
+                    incomeAccountNo: vm.queries.incomeAccountNo
+                },
                 page:page
             }).trigger("reloadGrid");
 		},
@@ -151,10 +168,99 @@ var vm = new Vue({
                     }
                 }
             });
+        },
+        init:function(){
+            $('#projectForm').bootstrapValidator({
+                message: '输入信息有误',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    accountId: {
+                        message: '输入内容有误',
+                        validators: {
+                            notEmpty: {
+                                message: '请输入项目专户id'
+                            }
+                        }
+                    },
+                    tranMon:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入交易金额'
+                            },
+                            regexp: {
+                                regexp: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/ ,
+                                message: '金额必须大于0，且最多含有2位小数!'
+                            }
+                        }
+                    },
+                    accountRemain:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入专户余额'
+                            },
+                            regexp: {
+                                regexp: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/ ,
+                                message: '金额必须大于0，且最多含有2位小数!'
+                            }
+                        }
+                    },
+                    incomeAccountNo:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入进账账号'
+                            },
+                            regexp: {
+                                regexp:/^(0[1-9][0-9]*)$/ ,
+                                message: '账户号只能输入数字'
+                            }
+                        }
+                    },
+                    incomeUnitName:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入进账单位名称'
+                            }
+                        }
+                    },
+                    outcomeBatchNo:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入出账批次号'
+                            }
+                        }
+                    },
+                    recordTime:{
+                        validators: {
+                            notEmpty: {
+                                message: '请选择记录登记时间'
+                            }
+                        }
+                    },
+                    payslipBeginTime:{
+                        validators: {
+                            notEmpty: {
+                                message: '请选择工资单开始时间'
+                            }
+                        }
+                    },
+                    payslipEndTime:{
+                        validators: {
+                            notEmpty: {
+                                message: '请选择工资单结束时间'
+                            }
+                        }
+                    }
+                }
+            });
+            $('#projectForm').data('bootstrapValidator').resetForm(true);
         }
 	},
     mounted(){
-        $('#recordTime,#payslipBeginTime,#payslipEndTime').datetimepicker({
+        $('.timeGroup').datetimepicker({
             language:  'zh-CN',
             weekStart: 0, //一周从哪一天开始
             todayBtn:  1, //

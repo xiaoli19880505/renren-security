@@ -215,6 +215,9 @@ var vm = new Vue({
                     busCode: {
                         message: '输入内容有误',
                         validators: {
+                            notEmpty: {
+                                message: '请输入企业统一社会信用代码'
+                            },
                             regexp: {
                                 regexp:/^[1-9A-GY]{1}[1239]{1}[1-5]{1}[0-9]{5}[0-9A-Z]{10}$/,
                                 message: '企业统一社会信用代码格式错误'
