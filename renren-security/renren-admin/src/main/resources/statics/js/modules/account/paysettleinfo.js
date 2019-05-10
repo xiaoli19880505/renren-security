@@ -156,7 +156,8 @@ var vm = new Vue({
                 },
                 page:page
             }).trigger("reloadGrid");
-		},
+            $('#projectForm').data('bootstrapValidator').resetForm(true);
+        },
         init:function(){
             $('#projectForm').bootstrapValidator({
                 message: '输入信息有误',
@@ -273,7 +274,6 @@ var vm = new Vue({
                     },
                 }
             });
-            $('#projectForm').data('bootstrapValidator').resetForm(true);
         }
 	},
     mounted(){

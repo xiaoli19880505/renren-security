@@ -152,7 +152,8 @@ var vm = new Vue({
                 },
                 page:page
             }).trigger("reloadGrid");
-		},
+            $('#projectForm').data('bootstrapValidator').resetForm(true);
+        },
         loadAccount:function(){
             $.ajax({
                 url: baseURL + 'sys/projectbankaccount/alllist',
@@ -256,7 +257,6 @@ var vm = new Vue({
                     }
                 }
             });
-            $('#projectForm').data('bootstrapValidator').resetForm(true);
         }
 	},
     mounted(){

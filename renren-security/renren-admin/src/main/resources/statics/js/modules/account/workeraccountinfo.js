@@ -145,7 +145,8 @@ var vm = new Vue({
                 },
                 page:page
             }).trigger("reloadGrid");
-		},
+            $('#projectForm').data('bootstrapValidator').resetForm(true);
+        },
         loadDic:function(){
             $.ajax({
                 url: baseURL + 'sys/dict/alllist',
@@ -209,7 +210,6 @@ var vm = new Vue({
                     }
                 }
             });
-            $('#projectForm').data('bootstrapValidator').resetForm(true);
         }
 
     }
