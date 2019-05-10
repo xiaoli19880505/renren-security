@@ -215,7 +215,7 @@ var vm = new Vue({
                                 message: '请输入进账账号'
                             },
                             regexp: {
-                                regexp:/^(0[1-9][0-9]*)$/ ,
+                                regexp:/^(0|[1-9][0-9]*)$/,
                                 message: '账户号只能输入数字'
                             }
                         }
@@ -235,6 +235,7 @@ var vm = new Vue({
                         }
                     },
                     recordTime:{
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请选择记录登记时间'
@@ -242,6 +243,7 @@ var vm = new Vue({
                         }
                     },
                     payslipBeginTime:{
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请选择工资单开始时间'
@@ -249,6 +251,7 @@ var vm = new Vue({
                         }
                     },
                     payslipEndTime:{
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请选择工资单结束时间'

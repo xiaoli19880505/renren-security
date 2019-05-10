@@ -206,12 +206,13 @@ var vm = new Vue({
                                 message: '请输入工人银行卡号'
                             },
                             regexp: {
-                                regexp:/^(0[1-9][0-9]*)$/ ,
+                                regexp:/^(0|[1-9][0-9]*)$/,
                                 message: '工人银行卡号只能输入数字'
                             }
                         }
                     },
                     payGrantTime:{
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '选择工资发放日期'
@@ -219,6 +220,7 @@ var vm = new Vue({
                         }
                     },
                     payBeginTime:{
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请选择工资开始时间'
@@ -226,6 +228,7 @@ var vm = new Vue({
                         }
                     },
                     payEndTime:{
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请选择工资截止时间'
@@ -278,6 +281,7 @@ var vm = new Vue({
                         }
                     },
                     recordTime:{
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请选择记录时间'
