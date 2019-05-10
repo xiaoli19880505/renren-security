@@ -89,6 +89,7 @@ var vm = new Vue({
 			vm.title = "新增";
 			vm.projectBankAccount = {};
             this.loadDic();
+            this.init();
 		},
 		update: function (event) {
 			var accountId = getSelectedRow();
@@ -100,8 +101,11 @@ var vm = new Vue({
             vm.getInfo(accountId)
 		},
 		saveOrUpdate: function (event) {
-		    $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
-                var url = vm.projectBankAccount.accountId == null ? "sys/projectbankaccount/save" : "sys/projectbankaccount/update";
+            var url = vm.projectBankAccount.accountId == null ? "sys/projectbankaccount/save" : "sys/projectbankaccount/update";
+            var bootstrapValidator = $("#projectForm").data('bootstrapValidator');
+            bootstrapValidator.validate();
+            if(bootstrapValidator.isValid()){
+                $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
                     $.ajax({
                         type: "POST",
                         url: baseURL + url,
@@ -120,7 +124,11 @@ var vm = new Vue({
                             }
                         }
                     });
-			});
+                });
+            }else{
+                $('#btnSaveOrUpdate').button('reset');
+                $('#btnSaveOrUpdate').dequeue();
+            }
 		},
 		del: function (event) {
 			var accountIds = getSelectedRows();
@@ -195,6 +203,67 @@ var vm = new Vue({
             vm.projectBankAccount.bankCode=code;
             vm.projectBankAccount.bankName=text;
         },
+        init:function(){
+		    $('#projectForm').bootstrapValidator({
+                message: '输入信息有误',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    busCode: {
+                        message: '输入内容有误',
+                        validators: {
+                            regexp: {
+                                regexp:/^[1-9A-GY]{1}[1239]{1}[1-5]{1}[0-9]{5}[0-9A-Z]{10}$/,
+                                message: '企业统一社会信用代码格式错误'
+                            }
+                        }
+                    },
+                    proNo:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入项目编号'
+                            }
+                        }
+                    },
+                    bankDicId:{
+                        validators: {
+                            notEmpty: {
+                                message: '请选择开户行数据字典'
+                            }
+                        }
+                    },
+                    accountNo:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入工资专用账户账号'
+                            },
+                            regexp: {
+                                regexp:/^(0[1-9][0-9]*)$/ ,
+                                message: '账户号只能输入数字'
+                            }
+                        }
+                    },
+                    accountName:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入专户开户户名'
+                            }
+                        }
+                    },
+                    accountNet:{
+                        validators: {
+                            notEmpty: {
+                                message: '请输入专户开户网点'
+                            }
+                        }
+                    }
+                }
+            });
+            $('#projectForm').data('bootstrapValidator').resetForm(true);
+        }
 	},
     created(){
         this.getConfig();
