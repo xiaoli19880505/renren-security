@@ -229,6 +229,18 @@ var vm = new Vue({
                         validators: {
                             notEmpty: {
                                 message: '请选择工资截止时间'
+                            },
+                            callback: {
+                                message: '截止日期不能小于开始日期',
+                                callback:function(value, validator,$field,options){
+                                    var begin=new Date($("#payBeginTime").val().replace(/-/g,"/"));
+                                    var end=new Date(value.replace(/-/g,"/"));
+                                    if(begin-end>0){
+                                        return false;
+                                    }else{
+                                        return true
+                                    }
+                                }
                             }
                         }
                     },

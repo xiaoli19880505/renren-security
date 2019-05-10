@@ -252,6 +252,15 @@ var vm = new Vue({
                         validators: {
                             notEmpty: {
                                 message: '请选择工资单结束时间'
+                            },
+                            callback:function(value, validator,$field,options){
+                                var begin=new Date($("#payslipBeginTime").val().replace(/-/g,"/"));
+                                var end=new Date(value.replace(/-/g,"/"));
+                                if(begin-end>0){
+                                    return false;
+                                }else{
+                                    return true
+                                }
                             }
                         }
                     }
