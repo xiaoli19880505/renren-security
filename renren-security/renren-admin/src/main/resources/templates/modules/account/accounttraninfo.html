@@ -8,8 +8,18 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
+            <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                <input type="text" class="form-control" v-model="queries.accountId" @keyup.enter="query" placeholder="项目专户id">
+            </div>
+            <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                <input type="text" class="form-control" v-model="queries.incomeAccountNo" @keyup.enter="query" placeholder="进账账号">
+            </div>
+            <div class="form-group  col-sm-2 col-md-2 col-lg-2">
+                <input type="text" class="form-control" v-model="queries.incomeUnitName" @keyup.enter="query" placeholder="进账单位名称">
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
 			<#if shiro.hasPermission("sys:accounttraninfo:save")>
-            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;上传</a>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
 			</#if>
 			<#if shiro.hasPermission("sys:accounttraninfo:update")>
             <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
@@ -24,11 +34,11 @@
 
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
+        <form class="form-horizontal"  id="projectForm" method="post">
             <div class="form-group">
                 <div class="col-sm-4 control-label">项目专户id</div>
                 <div class="col-sm-8">
-                    <select  class="form-control" v-model="accountTranInfo.accountId">
+                    <select  class="form-control" name="accountId" v-model="accountTranInfo.accountId">
                         <option v-for="item in accountJson" :value="item.accountId">{{item.accountName}}</option>
                     </select>
                 </div>
@@ -36,79 +46,70 @@
             <div class="form-group">
                 <div class="col-sm-4 control-label">交易金额</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model.trim="accountTranInfo.tranMon" placeholder="交易金额"/>
+                    <input type="text" class="form-control" name="tranMon" v-model.trim="accountTranInfo.tranMon" placeholder="交易金额"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">专户余额</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model.trim="accountTranInfo.accountRemain" placeholder="专户余额"/>
+                    <input type="text" class="form-control"  name="accountRemain" v-model.trim="accountTranInfo.accountRemain" placeholder="专户余额"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">交易状态</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model.trim="accountTranInfo.tranState" placeholder="交易状态"/>
+                    <input type="text" class="form-control" name="tranState" v-model.trim="accountTranInfo.tranState" placeholder="交易状态"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">进账账号</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model="accountTranInfo.incomeAccountNo" placeholder="进账账号"/>
+                    <input type="text" class="form-control" name="incomeAccountNo" v-model="accountTranInfo.incomeAccountNo" placeholder="进账账号"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">进账单位名称</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model="accountTranInfo.incomeUnitName" placeholder="进账单位名称"/>
+                    <input type="text" class="form-control" name="incomeUnitName" v-model="accountTranInfo.incomeUnitName" placeholder="进账单位名称"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">出账批次号</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model="accountTranInfo.outcomeBatchNo" placeholder="出账批次号"/>
+                    <input type="text" class="form-control" name="outcomeBatchNo" v-model="accountTranInfo.outcomeBatchNo" placeholder="出账批次号"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">记录登记时间</div>
                 <div class="col-sm-8">
-                    <div class='input-group date' id='recordTime'>
-                        <input type='text' class="form-control" v-model="accountTranInfo.recordTime" />
+                    <div class='input-group date timeGroup'>
+                        <input type='text' class="form-control"  readonly name="recordTime" v-model="accountTranInfo.recordTime" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
-<!--
-                    <input type="text" class="form-control" v-model="accountTranInfo.recordTime" placeholder="记录登记时间"/>
--->
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">工资单开始时间</div>
                 <div class="col-sm-8">
-                    <div class='input-group date' id='payslipBeginTime'>
-                        <input type='text' class="form-control" v-model="accountTranInfo.payslipBeginTime" />
+                    <div class='input-group date timeGroup'>
+                        <input type='text' class="form-control" readonly name="payslipBeginTime" v-model="accountTranInfo.payslipBeginTime" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
-<!--
-                    <input type="text" class="form-control" v-model="accountTranInfo.payslipBeginTime" placeholder="工资单开始时间"/>
--->
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">工资单结束时间</div>
                 <div class="col-sm-8">
-                    <div class='input-group date' id='payslipEndTime'>
-                        <input type='text' class="form-control" v-model="accountTranInfo.payslipEndTime" />
+                    <div class='input-group date timeGroup'>
+                        <input type='text' class="form-control" readonly name="payslipEndTime" v-model="accountTranInfo.payslipEndTime" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
-<!--
-                    <input type="text" class="form-control" v-model="accountTranInfo.payslipEndTime" placeholder="工资单结束时间"/>
--->
                 </div>
             </div>
 											                <!--    <div class="form-group">
