@@ -54,7 +54,7 @@
             <div class="form-group">
                 <div class="col-sm-4 control-label">开户行数据字典id</div>
                 <div class="col-sm-8">
-                    <select class="form-control" id="bankDicId" v-model="projectBankAccount.bankDicId" @change="changeId">
+                    <select class="form-control" id="bankDicId"  name="bankDicId" v-model="projectBankAccount.bankDicId" @change="changeId">
                             <option v-for="(item,index) in bankDicJson" :key="index" :value="item.id" :code="item.code">{{item.value}}</option>
                     </select>
                 </div>
@@ -62,33 +62,21 @@
             <div class="form-group">
                 <div class="col-sm-4 control-label">工资专用账户账号</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model="projectBankAccount.accountNo" placeholder="工资专用账户账号"/>
+                    <input type="text" class="form-control" name="accountNo" v-model="projectBankAccount.accountNo" placeholder="工资专用账户账号"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">专户开户户名</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model="projectBankAccount.accountName" placeholder="专户开户户名"/>
+                    <input type="text" class="form-control" name="accountName"  v-model="projectBankAccount.accountName" placeholder="专户开户户名"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 control-label">专户开户网点</div>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" v-model="projectBankAccount.accountNet" placeholder="专户开户网点"/>
+                    <input type="text" class="form-control" name="accountNet" v-model="projectBankAccount.accountNet" placeholder="专户开户网点"/>
                 </div>
             </div>
-					<!--						                    <div class="form-group">
-                        <div class="col-sm-4 control-label">上传人id</div>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" v-model="projectBankAccount.createPersonId" placeholder="上传人id"/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-4 control-label">上传时间</div>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" v-model="projectBankAccount.createTime" placeholder="上传时间"/>
-                        </div>
-                    </div>-->
             <div class="form-group">
                 <div class="col-sm-5 control-label"></div>
                 <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
