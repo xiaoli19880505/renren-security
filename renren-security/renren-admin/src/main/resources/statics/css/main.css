@@ -33,11 +33,12 @@ html { overflow-x:hidden; }
 .pointer{cursor: pointer;}
 
 .ml-10 { margin-left:0 !important; }
+/*
 @media (min-width: 768px) {
 	.ml-10 { margin-left:10px !important; }
-	.col-sm-10 {width: 70%;padding-left: 0px;}
+	.col-sm-10 {width: 70%;padding-left: 0;}
 	.col-sm-2 {width: 24%;}
-}
+}*/
 tbody > tr > th {font-weight: normal; }
 .panel .table { margin:0 0; }
 .panel .pagination { margin:0; }
@@ -45,10 +46,13 @@ tbody > tr > th {font-weight: normal; }
 .row{
 	border-top: 1px solid #ddd;
 	margin:0;
-	padding:20px 2px 0px 2px;
+	padding:20px 2px 0 2px;
 }
-.col-xs-6{padding-left: 0px;padding-right: 0px;}
-.form-horizontal .form-group {margin-left:0px;margin-right:0px;}
+.ui-jqgrid-hdiv th:not(:nth-child(2)){
+    text-align: center !important;
+}
+.col-xs-6{padding-left: 0;padding-right: 0;}
+.form-horizontal .form-group {margin-left:0;margin-right:0;}
 .form-horizontal{
 	width:550px;padding-top:20px;
 }
