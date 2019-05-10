@@ -3,19 +3,19 @@ $(function () {
         url: baseURL + 'sys/accounttraninfo/list',
         datatype: "json",
         colModel: [			
-			{ label: 'tranId', name: 'tranId', index: 'tran_id', width: 50, key: true },
-			{ label: '项目专户id', name: 'accountId', index: 'account_id', width: 80 }, 			
-			{ label: '交易金额', name: 'tranMon', index: 'tran_mon', width: 80 }, 			
-			{ label: '专户余额', name: 'accountRemain', index: 'account_remain', width: 80 }, 			
-			{ label: '交易状态', name: 'tranState', index: 'tran_state', width: 80 }, 			
-			{ label: '进账账号', name: 'incomeAccountNo', index: 'income_account_no', width: 80 }, 			
-			{ label: '进账单位名称', name: 'incomeUnitName', index: 'income_unit_name', width: 80 }, 			
-			{ label: '出账批次号', name: 'outcomeBatchNo', index: 'outcome_batch_no', width: 80 }, 			
-			{ label: '记录登记时间', name: 'recordTime', index: 'record_time', width: 80 }, 			
-			{ label: '工资单开始时间', name: 'payslipBeginTime', index: 'payslip_begin_time', width: 80 }, 			
-			{ label: '工资单结束时间', name: 'payslipEndTime', index: 'payslip_end_time', width: 80 }, 			
-			{ label: '上传人id', name: 'createPersonId', index: 'create_person_id', width: 80 }, 			
-			{ label: '上传时间', name: 'createTime', index: 'create_time', width: 80 }			
+			{ label: 'tranId', name: 'tranId', index: 'tran_id', width: 80,key: true },
+			{ label: '项目专户id', name: 'accountId', index: 'account_id', width: 100 },
+			{ label: '交易金额', name: 'tranMon', index: 'tran_mon', width: 100 },
+			{ label: '专户余额', name: 'accountRemain', index: 'account_remain', width: 100 },
+			{ label: '交易状态', name: 'tranState', index: 'tran_state', width: 100 },
+			{ label: '进账账号', name: 'incomeAccountNo', index: 'income_account_no', width: 100 },
+			{ label: '进账单位名称', name: 'incomeUnitName', index: 'income_unit_name', width: 200 },
+			{ label: '出账批次号', name: 'outcomeBatchNo', index: 'outcome_batch_no', width: 100 },
+			{ label: '记录登记时间', name: 'recordTime', index: 'record_time', width: 150 },
+			{ label: '工资单开始时间', name: 'payslipBeginTime', index: 'payslip_begin_time', width: 150 },
+			{ label: '工资单结束时间', name: 'payslipEndTime', index: 'payslip_end_time', width: 150 },
+			{ label: '上传人id', name: 'createPersonId', index: 'create_person_id', width: 100 },
+			{ label: '上传时间', name: 'createTime', index: 'create_time', width: 150 }
         ],
 		viewrecords: true,
         height: 385,
@@ -25,6 +25,8 @@ $(function () {
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
+        shrinkToFit:false,
+        autoScroll: true,
         pager: "#jqGridPager",
         jsonReader : {
             root: "page.list",
@@ -39,7 +41,7 @@ $(function () {
         },
         gridComplete:function(){
         	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "scroll" });
         }
     });
 });

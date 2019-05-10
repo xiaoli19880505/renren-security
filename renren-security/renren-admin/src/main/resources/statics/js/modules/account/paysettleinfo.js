@@ -3,22 +3,22 @@ $(function () {
         url: baseURL + 'sys/paysettleinfo/list',
         datatype: "json",
         colModel: [			
-			{ label: 'seetleId', name: 'seetleId', index: 'seetle_id', width: 50, key: true },
-			{ label: '项目编号', name: 'proNo', index: 'pro_no', width: 80 }, 			
-			{ label: '工人身份证号', name: 'workerSfzh', index: 'worker_sfzh', width: 80 }, 			
+			{ label: 'seetleId', name: 'seetleId', index: 'seetle_id', width: 80, key: true },
+			{ label: '项目编号', name: 'proNo', index: 'pro_no', width: 100 },
+			{ label: '工人身份证号', name: 'workerSfzh', index: 'worker_sfzh', width: 200 },
 			{ label: '发放批次号', name: 'grantBatchNo', index: 'grant_batch_no', width: 80 }, 			
-			{ label: '银行名称', name: 'bankName', index: 'bank_name', width: 80 }, 			
-			{ label: '工资发放日期', name: 'payGrantTime', index: 'pay_grant_time', width: 80 }, 			
-			{ label: '工资开始时间', name: 'payBeginTime', index: 'pay_begin_time', width: 80 }, 			
-			{ label: '工资截止时间', name: 'payEndTime', index: 'pay_end_time', width: 80 }, 			
-			{ label: '应发工资', name: 'payTotal', index: 'pay_total', width: 80 }, 			
-			{ label: '预发工资', name: 'payPrepare', index: 'pay_prepare', width: 80 }, 			
-			{ label: '实发工资', name: 'payReal', index: 'pay_real', width: 80 }, 			
-			{ label: '记录时间', name: 'recordTime', index: 'record_time', width: 80 }, 			
-			{ label: '工人银行卡号', name: 'workerAccount', index: 'worker_account', width: 80 }, 			
+			{ label: '银行名称', name: 'bankName', index: 'bank_name', width: 100 },
+			{ label: '工资发放日期', name: 'payGrantTime', index: 'pay_grant_time', width: 150 },
+			{ label: '工资开始时间', name: 'payBeginTime', index: 'pay_begin_time', width: 150 },
+			{ label: '工资截止时间', name: 'payEndTime', index: 'pay_end_time', width: 150 },
+			{ label: '应发工资', name: 'payTotal', index: 'pay_total', width: 100 },
+			{ label: '预发工资', name: 'payPrepare', index: 'pay_prepare', width: 100 },
+			{ label: '实发工资', name: 'payReal', index: 'pay_real', width: 100 },
+			{ label: '记录时间', name: 'recordTime', index: 'record_time', width: 150 },
+			{ label: '工人银行卡号', name: 'workerAccount', index: 'worker_account', width: 200 },
 			{ label: '备注', name: 'remark', index: 'remark', width: 80 }, 			
 			{ label: '上传人', name: 'createPersonId', index: 'create_person_id', width: 80 }, 			
-			{ label: '上传时间', name: 'createTime', index: 'create_time', width: 80 }			
+			{ label: '上传时间', name: 'createTime', index: 'create_time', width: 150 }
         ],
 		viewrecords: true,
         height: 385,
@@ -28,6 +28,8 @@ $(function () {
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
+        shrinkToFit:false,
+        autoScroll: true,
         pager: "#jqGridPager",
         jsonReader : {
             root: "page.list",
@@ -42,7 +44,7 @@ $(function () {
         },
         gridComplete:function(){
         	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "scroll" });
         }
     });
 });

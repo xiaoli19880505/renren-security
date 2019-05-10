@@ -3,15 +3,15 @@ $(function () {
         url: baseURL + 'sys/projectbankaccount/list',
         datatype: "json",
         colModel: [			
-			{ label: 'accountId', name: 'accountId', index: 'account_id', width: 50, key: true },
-			{ label: '企业统一社会信用代码', name: 'busCode', index: 'bus_code', width: 80 }, 			
-			{ label: '项目编号', name: 'proNo', index: 'pro_no', width: 80 }, 			
+			{ label: 'accountId', name: 'accountId', index: 'account_id', width: 100, key: true },
+			{ label: '企业统一社会信用代码', name: 'busCode', index: 'bus_code', width: 200 },
+			{ label: '项目编号', name: 'proNo', index: 'pro_no', width: 100 },
 			{ label: '开户行数据字典id', name: 'bankDicId', index: 'bank_dic_id', width: 80 }, 			
-			{ label: '工资专用账户账号', name: 'accountNo', index: 'account_no', width: 80 }, 			
-			{ label: '专户开户户名', name: 'accountName', index: 'account_name', width: 80 }, 			
-			{ label: '专户开户网点', name: 'accountNet', index: 'account_net', width: 80 }, 			
-			{ label: '上传人id', name: 'createPersonId', index: 'create_person_id', width: 80 }, 			
-			{ label: '上传时间', name: 'createTime', index: 'create_time', width: 80 }			
+			{ label: '工资专用账户账号', name: 'accountNo', index: 'account_no', width: 200 },
+			{ label: '专户开户户名', name: 'accountName', index: 'account_name', width: 100 },
+			{ label: '专户开户网点', name: 'accountNet', index: 'account_net', width: 200 },
+			{ label: '上传人id', name: 'createPersonId', index: 'create_person_id', width: 100 },
+			{ label: '上传时间', name: 'createTime', index: 'create_time', width: 150 }
         ],
 		viewrecords: true,
         height: 385,
@@ -21,6 +21,8 @@ $(function () {
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
+        shrinkToFit:false,
+        autoScroll: true,
         altRows:true,
         altclass:'ui-jqgrid-rowbackgroundColor',
         pager: "#jqGridPager",
@@ -37,7 +39,7 @@ $(function () {
         },
         gridComplete:function(){
         	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "scroll" });
         }
     });
     new AjaxUpload('#upload', {
