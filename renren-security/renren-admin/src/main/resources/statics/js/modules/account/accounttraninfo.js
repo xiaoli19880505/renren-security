@@ -261,14 +261,15 @@ var vm = new Vue({
 	},
     mounted(){
         $('.timeGroup').datetimepicker({
+            format:'yyyy-mm-dd hh:ii:ss',
             language:  'zh-CN',
             weekStart: 0, //一周从哪一天开始
-            todayBtn:  1, //
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0,
-            showMeridian: 1
+            todayBtn:true, //
+            autoclose:true,//选择后立即关闭
+            startView: 2,//从月开始
+            minView:0,//最精确视图
+            forceParse: false,//是否强制转换
+            pickerPosition:'bottom-left'
         });
 
     }
