@@ -12,7 +12,7 @@
                 <input type="text" class="form-control" v-model="queries.workerSfzh" @keyup.enter="query" placeholder="身份证号">
             </div>
             <div class="form-group  col-sm-2 col-md-2 col-lg-2">
-                <input type="text" class="form-control" v-model="queries.proNo" @keyup.enter="query" placeholder="工人开户账号">
+                <input type="text" class="form-control" v-model="queries.workerAccountNo" @keyup.enter="query" placeholder="工人开户账号">
             </div>
             <a class="btn btn-default" @click="query">查询</a>
 			<#if shiro.hasPermission("sys:workeraccountinfo:save")>
